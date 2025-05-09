@@ -10,8 +10,9 @@ import {
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { Post } from './entities/post.entity';
 
-@Controller('posts')
+@Controller('blog')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
@@ -23,6 +24,11 @@ export class PostsController {
   @Get()
   findAll() {
     return this.postsService.findAll();
+  }
+
+  @Get(':slug')
+  findOneBySlug(@Param('slug') slug: string): Promise<Post> {
+    return this.postsService.findOneBySlug(slug);
   }
 
   @Get(':id')

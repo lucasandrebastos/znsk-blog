@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Post } from './entities/post.entity';
@@ -23,6 +23,18 @@ export class PostsService {
 
   findOne(id: string) {
     return this.postRepository.findOneBy({ id });
+  }
+
+  async findOneBySlug(slug: string): Promise<Post> {
+    const post = await this.postRepository.findOne({
+      where: { slug, isActive: true },
+    });
+
+    if (!post) {
+      throw new NotFoundException(`Post com slug "${slug}" não encontrado.`);
+    }
+
+    return post;
   }
 
   update(id: string, updatePostDto: UpdatePostDto) {
