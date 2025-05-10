@@ -1,14 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { corsOptions } from './config/cors.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors({
-    origin: 'http://localhost:3000',
-    credentials: true, // se for usar cookies ou headers de autenticação
-  });
+  app.enableCors(corsOptions);
 
   app.useGlobalPipes(new ValidationPipe());
 
