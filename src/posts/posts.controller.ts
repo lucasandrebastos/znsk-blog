@@ -23,6 +23,7 @@ export class PostsController {
 
   @Get()
   findAll() {
+    console.log('findAll', new Date().toLocaleTimeString('en-US'));
     return this.postsService.findAll();
   }
 
